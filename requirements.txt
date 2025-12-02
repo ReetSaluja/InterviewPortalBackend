@@ -1,0 +1,16 @@
+fastapi==0.110.0
+uvicorn==0.29.0
+sqlalchemy==2.0.30
+python-dotenv==1.0.1
+pydantic==1.10.13
+pydantic[email]==1.10.13
+psycopg2==2.9.11
+
+# if using PostgreSQL, RECOMMENDED replacement for psycopg2-binary:
+psycopg[binary]
+
+# for CORS and form parsing 
+python-multipart==0.0.9
+
+# for linting (optional)
+pylint==3.0.3
