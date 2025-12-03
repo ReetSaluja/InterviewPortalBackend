@@ -13,6 +13,8 @@ def create_candidate_repo(db: Session, candidate_data: CandidateCreate) -> Candi
         SkillSet=candidate_data.SkillSet,
         CurrentOrganization=candidate_data.CurrentOrganization,
         NoticePeriod=candidate_data.NoticePeriod,
+        Feedback=candidate_data.Feedback,
+        Remarks=candidate_data.Remarks
     )
     db.add(candidate)
     db.commit()

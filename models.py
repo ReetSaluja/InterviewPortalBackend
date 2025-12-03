@@ -24,4 +24,13 @@ class Candidate(Base):
     SkillSet = Column(String, nullable=False)
     CurrentOrganization = Column(String, nullable=False)
     NoticePeriod = Column(String, nullable=False)
+    Feedback = Column(String, nullable=True)
+    Remarks = Column(String, nullable=True)
+    
+    class Config:
+     orm_mode = True
+
+    
+
+
 

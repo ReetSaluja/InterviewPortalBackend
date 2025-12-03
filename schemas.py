@@ -19,17 +19,19 @@ class UserRead(BaseModel):
     
     class Config:
         orm_mode = True
-
+    
+    
 
 class CandidateCreate(BaseModel):
+    id:Optional[int]=None
     CandidateName: str
     TotalExperience: str
     SkillSet: str
     CurrentOrganization: str
     NoticePeriod: str
+    Feedback: Optional[str] = None   
+    Remarks: Optional[str] = None
     
-class CandidateRead(CandidateCreate):
-    id: int
 
     class Config:
         orm_mode = True
