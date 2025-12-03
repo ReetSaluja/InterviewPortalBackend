@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware   # <-- ADD THIS LINE
 from database import Base, engine
 from routers.candidate_router import router as candidate_router
-
+from routers.auth_router import router as auth_router
 # Create tables in the database
 Base.metadata.create_all(bind=engine)
 
@@ -25,4 +25,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # Register router
+app.include_router(auth_router)
 app.include_router(candidate_router)

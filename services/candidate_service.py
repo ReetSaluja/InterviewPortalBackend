@@ -4,7 +4,7 @@ from typing import List
 
 from schemas import CandidateCreate
 from models import Candidate
-from repos.candiate_repository import create_candidate_repo
+from repository.candiate_repository import create_candidate_repo
 
 
 
