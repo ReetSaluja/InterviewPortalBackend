@@ -4,7 +4,7 @@ from typing import Optional
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
-    role: str  # "admin" or "candidate"
+    role: str  # "admin" or "interviewer"
 
 
 class UserLogin(BaseModel):

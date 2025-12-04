@@ -5,7 +5,7 @@ import enum
 
 class RoleEnum(str, enum.Enum):
     admin = "admin"
-    candidate = "candidate"
+    interviewer = "interviewer"
 
 class User(Base):
     __tablename__ = "users"
@@ -13,7 +13,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True, nullable=True)
     password = Column(String, nullable=False) 
-    role = Column(Enum(RoleEnum), default=RoleEnum.candidate, nullable=False)
+    role = Column(Enum(RoleEnum), default=RoleEnum.interviewer, nullable=False)
 
 class Candidate(Base):
     __tablename__ = "candidates"
