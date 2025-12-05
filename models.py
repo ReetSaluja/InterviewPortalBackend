@@ -27,8 +27,17 @@ class Candidate(Base):
     Feedback = Column(String, nullable=True)
     Remarks = Column(String, nullable=True)
     
-    class Config:
-     orm_mode = True
+    
+class Interviewer(Base):
+    __tablename__ = "interviewer"
+    
+    id=Column(Integer, primary_key=True, index=True)
+    InterviewerName=Column(String,nullable=False)
+    PrimarySkill=Column(String,nullable=False)
+    Proficiency=Column(Integer,nullable=False)
+    
+    
+    
 
     
 
