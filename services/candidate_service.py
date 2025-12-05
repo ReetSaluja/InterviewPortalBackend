@@ -13,3 +13,7 @@ def create_candidate_service(db: Session, candidate_data: CandidateCreate) -> Ca
     return create_candidate_repo(db, candidate_data)
 
 
+def get_all_candidates_service(db: Session) -> List[Candidate]:
+    return db.query(Candidate).all()
+
+

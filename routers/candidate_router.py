@@ -6,7 +6,8 @@ from typing import List
 from database import get_db
 from schemas import CandidateCreate
 from services.candidate_service import (
-    create_candidate_service
+    create_candidate_service,
+    get_all_candidates_service,
 )
 
 router = APIRouter(
@@ -18,4 +19,8 @@ router = APIRouter(
 @router.post("/", response_model=CandidateCreate)
 def create_candidate(candidate: CandidateCreate, db: Session = Depends(get_db)):
     return create_candidate_service(db, candidate)
+
+@router.get("/", response_model=List[CandidateCreate])
+def get_all_candidates(db: Session = Depends(get_db)):
+    return get_all_candidates_service(db)
 

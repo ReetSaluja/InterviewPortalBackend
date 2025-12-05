@@ -1,16 +1,15 @@
-fastapi==0.110.0
-uvicorn==0.29.0
-sqlalchemy==2.0.30
+fastapi==0.115.5
+uvicorn==0.32.1
+sqlalchemy==2.0.36
 python-dotenv==1.0.1
-pydantic==1.10.13
-pydantic[email]==1.10.13
-psycopg2==2.9.11
+pydantic==2.10.3
+pydantic[email]==2.10.3
 
-# if using PostgreSQL, RECOMMENDED replacement for psycopg2-binary:
-psycopg[binary]
+# PostgreSQL adapter (compatible with Python 3.13)
+psycopg[binary]==3.2.3
 
 # for CORS and form parsing 
-python-multipart==0.0.9
+python-multipart==0.0.20
 
 # for linting (optional)
-pylint==3.0.3
+pylint==3.3.2
