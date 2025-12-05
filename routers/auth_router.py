@@ -1,10 +1,11 @@
 # routers/auth_router.py
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
+from typing import List
 
 from database import get_db
 from schemas import UserCreate, UserLogin, UserRead
-from services.auth_service import register_user_service, login_user_service
+from services.auth_service import register_user_service, login_user_service, get_users_by_role_service
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -20,3 +21,12 @@ def login_user(login_data: UserLogin, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=400, detail="Invalid email or password")
     return user
+
+
+@router.get("/users", response_model=List[UserRead])
+def get_users_by_role(
+    role: str = Query(..., description="Role to filter users (admin or interviewer)"),
+    db: Session = Depends(get_db)
+):
+    users = get_users_by_role_service(db, role)
+    return users

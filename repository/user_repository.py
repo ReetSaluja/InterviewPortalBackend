@@ -1,7 +1,7 @@
 # repository/user_repository.py
-from typing import Optional
+from typing import Optional, List
 from sqlalchemy.orm import Session
-from models import User
+from models import User, RoleEnum
 from schemas import UserCreate
 
 def create_user_repo(db: Session, user_data: UserCreate) -> User:
@@ -22,3 +22,7 @@ def login_user_repo(db: Session, email: str, password: str) -> Optional[User]:
 
 def get_user_by_email(db: Session, email: str) -> Optional[User]:
     return db.query(User).filter(User.email == email).first()
+
+
+def get_users_by_role(db: Session, role: RoleEnum) -> List[User]:
+    return db.query(User).filter(User.role == role).all()
