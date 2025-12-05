@@ -35,3 +35,12 @@ class CandidateCreate(BaseModel):
 
     class Config:
         orm_mode = True
+        
+class InterviewerSchema(BaseModel):
+    id: int
+    InterviewerName: str
+    PrimarySkill: str
+    Proficiency: int
+
+    class Config:
+        orm_mode = True 
