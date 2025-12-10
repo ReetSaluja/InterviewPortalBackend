@@ -1,9 +1,9 @@
 
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 
 from models import Candidate
-from schemas import CandidateCreate
+from schemas import CandidateCreate, CandidateUpdate
 
 
 def create_candidate_repo(db: Session, candidate_data: CandidateCreate) -> Candidate:
@@ -17,6 +17,23 @@ def create_candidate_repo(db: Session, candidate_data: CandidateCreate) -> Candi
         Remarks=candidate_data.Remarks
     )
     db.add(candidate)
+    db.commit()
+    db.refresh(candidate)
+    return candidate
+
+def get_candidate_by_id_repo(db: Session, candidate_id: int) -> Optional[Candidate]:
+    return db.query(Candidate).filter(Candidate.id == candidate_id).first()
+
+def update_candidate_repo(db: Session, candidate_id: int, candidate_data: CandidateUpdate) -> Optional[Candidate]:
+    candidate = get_candidate_by_id_repo(db, candidate_id)
+    if not candidate:
+        return None
+    
+    # Update only the fields that are provided
+    update_data = candidate_data.dict(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(candidate, field, value)
+    
     db.commit()
     db.refresh(candidate)
     return candidate

@@ -25,7 +25,23 @@ app.add_middleware(
     allow_methods=["*"],             
     allow_headers=["*"],
 )
-# Register router
+
+# Register routers
 app.include_router(auth_router)
 app.include_router(candidate_router)
 app.include_router(interviewer_router)
+
+@app.get("/")
+def root():
+    return {
+        "message": "Interview Backend API",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "endpoints": {
+            "candidates": {
+                "create": "POST /candidates/",
+                "get_all": "GET /candidates/",
+                "update": "PUT /candidates/{candidate_id}"
+            }
+        }
+    }

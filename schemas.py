@@ -35,6 +35,18 @@ class CandidateCreate(BaseModel):
 
     class Config:
         orm_mode = True
+
+class CandidateUpdate(BaseModel):
+    CandidateName: Optional[str] = None
+    TotalExperience: Optional[str] = None
+    SkillSet: Optional[str] = None
+    CurrentOrganization: Optional[str] = None
+    NoticePeriod: Optional[str] = None
+    Feedback: Optional[str] = None   
+    Remarks: Optional[str] = None
+    
+    class Config:
+        orm_mode = True
         
 class InterviewerSchema(BaseModel):
     id: int
