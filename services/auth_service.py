@@ -2,9 +2,9 @@
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-from models import RoleEnum
+from models.models import RoleEnum
 from repository.user_repository import create_user_repo, login_user_repo, get_user_by_email, get_users_by_role
-from schemas import UserCreate, UserLogin
+from schemas.schemas import UserCreate, UserLogin
 
 def register_user_service(db: Session, user_data: UserCreate):
     # Check duplicate email

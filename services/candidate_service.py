@@ -2,9 +2,9 @@
 from sqlalchemy.orm import Session
 from typing import List
 
-from schemas import CandidateCreate
-from models import Candidate
-from repository.candiate_repository import create_candidate_repo
+from schemas.schemas import CandidateCreate
+from models.models import Candidate
+from repository.candidate_repository import create_candidate_repo
 
 
 

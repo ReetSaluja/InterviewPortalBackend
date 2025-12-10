@@ -2,8 +2,8 @@
 from sqlalchemy.orm import Session
 from typing import List
 
-from models import Candidate
-from schemas import CandidateCreate
+from models.models import Candidate
+from schemas.schemas import CandidateCreate
 
 
 def create_candidate_repo(db: Session, candidate_data: CandidateCreate) -> Candidate:

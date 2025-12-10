@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware   # <-- ADD THIS LINE
-from database import Base, engine
+from db.database import Base, engine
 from routers.candidate_router import router as candidate_router
 from routers.auth_router import router as auth_router
 from routers.interviewer_router import router as interviewer_router
