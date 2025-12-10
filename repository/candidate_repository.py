@@ -5,7 +5,7 @@ from models.models import Candidate
 from schemas.schemas import CandidateCreate, CandidateUpdate
 
 
-def create_candidate_repo(db: Session, candidate_data: CandidateCreate) -> Candidate:
+def create_candidate_repo(db: Session, candidate_data: CandidateCreate):
     candidate = Candidate(
         CandidateName=candidate_data.CandidateName,
         TotalExperience=candidate_data.TotalExperience,
@@ -13,13 +13,17 @@ def create_candidate_repo(db: Session, candidate_data: CandidateCreate) -> Candi
         CurrentOrganization=candidate_data.CurrentOrganization,
         NoticePeriod=candidate_data.NoticePeriod,
         Feedback=candidate_data.Feedback,
-        Remarks=candidate_data.Remarks
+        Remarks=candidate_data.Remarks,
+        ClientName=candidate_data.ClientName,
+        ClientManagerName=candidate_data.ClientManagerName,
+        InterviewerId=candidate_data.InterviewerId,
+        ResumePath=candidate_data.ResumePath
     )
     db.add(candidate)
     db.commit()
     db.refresh(candidate)
     return candidate
-
+ 
 def get_candidate_by_id_repo(db: Session, candidate_id: int) -> Optional[Candidate]:
     return db.query(Candidate).filter(Candidate.id == candidate_id).first()
 
