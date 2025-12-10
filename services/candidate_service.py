@@ -2,9 +2,9 @@
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from schemas import CandidateCreate, CandidateUpdate
-from models import Candidate
-from repository.candiate_repository import (
+from schemas.schemas import CandidateCreate, CandidateUpdate
+from models.models import Candidate
+from repository.candidate_repository import (
     create_candidate_repo,
     update_candidate_repo,
     get_candidate_by_id_repo

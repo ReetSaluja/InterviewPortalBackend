@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session  
 from typing import List
-from database import get_db
+from db.database import get_db
 from services.Interviewer_service import fetch_all_interviewers_service
-from schemas import InterviewerSchema
+from schemas.schemas import InterviewerSchema
 router = APIRouter(
     prefix="/interviewers", 
     tags=["Interviewers"]

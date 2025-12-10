@@ -1,8 +1,8 @@
 # repository/user_repository.py
 from typing import Optional, List
 from sqlalchemy.orm import Session
-from models import User, RoleEnum
-from schemas import UserCreate
+from models.models import User, RoleEnum
+from schemas.schemas import UserCreate
 
 def create_user_repo(db: Session, user_data: UserCreate) -> User:
     user = User(
