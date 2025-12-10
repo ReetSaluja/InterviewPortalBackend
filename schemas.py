@@ -31,6 +31,11 @@ class CandidateCreate(BaseModel):
     NoticePeriod: str
     Feedback: Optional[str] = None   
     Remarks: Optional[str] = None
+    ClientName: Optional[str] = None
+    ClientManagerName: Optional[str] = None     
+    InterviewerId: Optional[int] = None
+    ResumePath: Optional[str] = None
+
     
 
     class Config:

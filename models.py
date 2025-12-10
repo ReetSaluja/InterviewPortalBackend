@@ -2,6 +2,8 @@
 from sqlalchemy import Column, Integer, String, Enum
 from database import Base
 import enum
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 class RoleEnum(str, enum.Enum):
     admin = "admin"
@@ -24,22 +26,23 @@ class Candidate(Base):
     SkillSet = Column(String, nullable=False)
     CurrentOrganization = Column(String, nullable=False)
     NoticePeriod = Column(String, nullable=False)
+
     Feedback = Column(String, nullable=True)
     Remarks = Column(String, nullable=True)
+
+    ClientName = Column(String, nullable=True)
+    ClientManagerName = Column(String, nullable=True)
+
+    InterviewerId = Column(Integer, ForeignKey("interviewer.id"), nullable=True)
+    interviewer = relationship("Interviewer")   # ORM relation
     
-    
+    ResumePath = Column(String, nullable=True)
+
+
 class Interviewer(Base):
     __tablename__ = "interviewer"
-    
-    id=Column(Integer, primary_key=True, index=True)
-    InterviewerName=Column(String,nullable=False)
-    PrimarySkill=Column(String,nullable=False)
-    Proficiency=Column(Integer,nullable=False)
-    
-    
-    
 
-    
-
-
-
+    id = Column(Integer, primary_key=True, index=True)
+    InterviewerName = Column(String, nullable=False)
+    PrimarySkill = Column(String, nullable=False)
+    Proficiency = Column(String, nullable=False)
