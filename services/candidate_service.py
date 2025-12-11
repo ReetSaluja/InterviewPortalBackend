@@ -63,3 +63,22 @@ def update_candidate_service(db: Session, candidate_id: int, candidate_data: Can
 def get_candidate_by_id_service(db: Session, candidate_id: int) -> Optional[Candidate]:
     return get_candidate_by_id_repo(db, candidate_id)
 
+def get_candidates_paginated_service(
+    db: Session,
+    skip: int = 0,
+    limit: int = 10
+) -> List[Candidate]:
+    """
+    Business logic for retrieving candidates with pagination.
+    """
+    # Validate pagination parameters
+    if skip < 0:
+        skip = 0
+    if limit <= 0 or limit > 100:  # Max limit to prevent performance issues
+        limit = 10
+    
+    totalcount = db.query(Candidate).count()
+    return {
+        "totalcount": totalcount,
+        "candidates": db.query(Candidate).offset(skip).limit(limit).all()
+    }
