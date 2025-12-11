@@ -5,6 +5,7 @@ from db.database import Base, engine
 from routers.candidate_router import router as candidate_router
 from routers.auth_router import router as auth_router
 from routers.interviewer_router import router as interviewer_router
+from fastapi.staticfiles import StaticFiles
 # Create tables in the database
 Base.metadata.create_all(bind=engine)
 
@@ -12,6 +13,8 @@ app = FastAPI(
     title="Interview Backend",
     version="1.0.0",
 )
+
+
 
 origins = [
     "http://localhost:5173", 
@@ -26,6 +29,9 @@ app.add_middleware(
     allow_methods=["*"],             
     allow_headers=["*"],
 )
+
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
 
 # Register routers
 app.include_router(auth_router)
