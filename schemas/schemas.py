@@ -63,7 +63,7 @@ class InterviewerSchema(BaseModel):
     id: int
     InterviewerName: str
     PrimarySkill: str
-    Proficiency: int
+    Proficiency: str
 
     class Config:
         from_attributes = True

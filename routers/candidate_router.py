@@ -10,7 +10,9 @@ from services.candidate_service import (
     create_candidate_service,
     get_all_candidates_service,
     update_candidate_service,
-    get_candidates_paginated_service
+    get_candidates_paginated_service,
+    get_candidate_by_id_service
+    
 )
 
 router = APIRouter(
@@ -26,8 +28,8 @@ def create_candidate(
     SkillSet:str=Form(...),    
     CurrentOrganization:str=Form(...),
     NoticePeriod:str=Form(...),
-    Feedback:Optional[str]=Form(...),
-    Remarks:Optional[str]=Form(...),
+    Feedback:Optional[str]=Form(None),
+    Remarks:Optional[str]=Form(None),
     ClientName:Optional[str]=Form(...),    
     ClientManagerName:Optional[str]=Form(...),
     InterviewerId:Optional[int]=Form(...),
@@ -68,8 +70,8 @@ def update_candidate(
             detail=f"Candidate with id {candidate_id} not found"
         )
     return updated_candidate
-
-# get candidates by pagination
+ 
+ # get candidates by pagination
 @router.get("/paginated")
 def get_candidates_paginated(
     skip: int = 0,
@@ -78,3 +80,14 @@ def get_candidates_paginated(
 ):
     candidates = get_candidates_paginated_service(db, skip=skip, limit=limit)
     return candidates
+
+@router.get("/{candidate_id}",response_model=CandidateCreate)
+def get_candidate_by_id(candidate_id:int,db: Session= Depends(get_db)):
+    candidate=get_candidate_by_id_service(db,candidate_id)
+    if not candidate:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Candidate with id {candidate_id} not found"
+        )
+    return candidate
+

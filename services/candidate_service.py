@@ -41,7 +41,7 @@ def create_candidate_service(
         with open(file_path, "wb") as buffer:           #Open the file in write-binary mode.A resume can be: text → .pdf, .docx, .pptx, .png, .jpg.if not python will treat pdf as text.
             shutil.copyfileobj(resume.file, buffer)     #Copy everything inside resume.file and write it into buffer.
  
-        resume_path = file_path                         # this is what we save in DB
+        resume_path = f"{UPLOAD_DIR}/{safe_name}"                      # this is what we save in DB
  
     
     candidate_data = CandidateCreate(                   # build Pydantic model
