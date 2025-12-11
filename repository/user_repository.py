@@ -26,3 +26,13 @@ def get_user_by_email(db: Session, email: str) -> Optional[User]:
 
 def get_users_by_role(db: Session, role: RoleEnum) -> List[User]:
     return db.query(User).filter(User.role == role).all()
+
+
+def update_password_repo(db: Session, email: str, new_password: str) -> Optional[User]:
+    user = get_user_by_email(db, email)
+    if user:
+        user.password = new_password
+        db.commit()
+        db.refresh(user)
+        return user
+    return None

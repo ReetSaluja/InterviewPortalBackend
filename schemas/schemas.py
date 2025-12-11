@@ -12,13 +12,18 @@ class UserLogin(BaseModel):
     password: str
 
 
+class UserPasswordUpdate(BaseModel):
+    email: EmailStr
+    new_password: str
+
+
 class UserRead(BaseModel):
     id: int
     email: EmailStr
     role: str
     
     class Config:
-        orm_mode = True
+        from_attributes = True
     
     
 
@@ -40,7 +45,7 @@ class CandidateCreate(BaseModel):
     
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CandidateUpdate(BaseModel):
     CandidateName: Optional[str] = None
@@ -52,7 +57,7 @@ class CandidateUpdate(BaseModel):
     Remarks: Optional[str] = None
     
     class Config:
-        orm_mode = True
+        from_attributes = True
         
 class InterviewerSchema(BaseModel):
     id: int
@@ -61,4 +66,4 @@ class InterviewerSchema(BaseModel):
     Proficiency: int
 
     class Config:
-        orm_mode = True 
+        from_attributes = True
