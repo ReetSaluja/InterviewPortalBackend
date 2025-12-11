@@ -3,13 +3,14 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from fastapi import UploadFile, File, Form
-
+from models.models import Candidate
 from db.database import get_db
 from schemas.schemas import CandidateCreate, CandidateUpdate
 from services.candidate_service import (
     create_candidate_service,
     get_all_candidates_service,
     update_candidate_service,
+    get_candidates_paginated_service
 )
 
 router = APIRouter(
@@ -69,13 +70,11 @@ def update_candidate(
     return updated_candidate
 
 # get candidates by pagination
-@router.get("/paginated", response_model=List[CandidateCreate])
+@router.get("/paginated")
 def get_candidates_paginated(
     skip: int = 0,
     limit: int = 10,
     db: Session = Depends(get_db)
 ):
-    from models.models import Candidate
-    candidates = db.query(Candidate).offset(skip).limit(limit).all()
+    candidates = get_candidates_paginated_service(db, skip=skip, limit=limit)
     return candidates
-
