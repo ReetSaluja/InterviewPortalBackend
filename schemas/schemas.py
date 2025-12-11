@@ -12,6 +12,11 @@ class UserLogin(BaseModel):
     password: str
 
 
+class UserPasswordUpdate(BaseModel):
+    email: EmailStr
+    new_password: str
+
+
 class UserRead(BaseModel):
     id: int
     email: EmailStr
