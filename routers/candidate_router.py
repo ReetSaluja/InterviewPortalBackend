@@ -1,7 +1,7 @@
 # routers/candidate_router.py
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional,Dict,Any
 from fastapi import UploadFile, File, Form
 from models.models import Candidate
 from db.database import get_db
@@ -11,7 +11,8 @@ from services.candidate_service import (
     get_all_candidates_service,
     update_candidate_service,
     get_candidates_paginated_service,
-    get_candidate_by_id_service
+    get_candidate_by_id_service,
+    import_candidates_service
     
 )
 
@@ -90,4 +91,12 @@ def get_candidate_by_id(candidate_id:int,db: Session= Depends(get_db)):
             detail=f"Candidate with id {candidate_id} not found"
         )
     return candidate
+
+
+@router.post("/import")
+def import_candidates(rows: List[Dict[str, Any]], db: Session = Depends(get_db)):
+    try:
+        return import_candidates_service(db, rows)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 

@@ -1,6 +1,6 @@
 # services/candidate_service.py
 from sqlalchemy.orm import Session
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict,Any 
 from fastapi import UploadFile
 import os
 import time
@@ -12,7 +12,8 @@ from models.models import Candidate
 from repository.candidate_repository import (
     create_candidate_repo,
     update_candidate_repo,
-    get_candidate_by_id_repo
+    get_candidate_by_id_repo,
+    bulk_insert_candidates
 )
 
 
@@ -68,13 +69,11 @@ def get_candidates_paginated_service(
     skip: int = 0,
     limit: int = 10
 ) -> List[Candidate]:
-    """
-    Business logic for retrieving candidates with pagination.
-    """
+    
     # Validate pagination parameters
     if skip < 0:
         skip = 0
-    if limit <= 0 or limit > 100:  # Max limit to prevent performance issues
+    if limit <= 0 or limit > 100:                   # Max limit to prevent performance issues
         limit = 10
     
     totalcount = db.query(Candidate).count()
@@ -82,3 +81,49 @@ def get_candidates_paginated_service(
         "totalcount": totalcount,
         "candidates": db.query(Candidate).offset(skip).limit(limit).all()
     }
+    
+    
+    
+def import_candidates_service(db: Session, rows: List[Dict[str, Any]]):
+    if not rows:                                      #Checks if Excel file was empty or frontend sent []
+        raise ValueError("No data to import")
+
+    cleaned_rows = []                                  #This will store validated & cleaned rows,Only rows in this list will be inserted
+                                                       #Extracts only fields that exist in the DB,Ignores extra Excel columns safely
+    for r in rows:
+        data = {
+            "CandidateName": r.get("CandidateName"),
+            "TotalExperience": r.get("TotalExperience"),
+            "SkillSet": r.get("SkillSet"),
+            "CurrentOrganization": r.get("CurrentOrganization"),
+            "NoticePeriod": r.get("NoticePeriod"),
+            "Feedback": r.get("Feedback"),
+            "Remarks": r.get("Remarks"),
+            "ClientName": r.get("ClientName"),
+            "ClientManagerName": r.get("ClientManagerName"),
+            "InterviewerId": r.get("InterviewerId"),
+            "ResumePath": r.get("ResumePath"),
+        }
+        # Required fields check
+        required = [
+            "CandidateName",
+            "TotalExperience",
+            "SkillSet",
+            "CurrentOrganization",
+            "NoticePeriod",
+        ]
+
+        for field in required:
+            if not data[field]:
+                raise ValueError(f"Missing required field: {field}")
+
+        # normalize empty strings
+        for k, v in data.items():                         #Loop through each field:k = field name ("Feedback")v = value ("")
+            if isinstance(v, str) and v.strip() == "":
+                data[k] = None                            #Replace empty string with None.
+
+    
+        cleaned_rows.append(data)
+
+    inserted = bulk_insert_candidates(db, cleaned_rows)
+    return {"message": "Imported successfully", "inserted": inserted}
