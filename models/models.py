@@ -38,6 +38,10 @@ class Candidate(Base):
     interviewer = relationship("Interviewer")   # ORM relation
    
     ResumePath = Column(String, nullable=True)
+    
+    @property
+    def InterviewerName(self):
+        return self.interviewer.InterviewerName if self.interviewer else None
  
     
 class Interviewer(Base):

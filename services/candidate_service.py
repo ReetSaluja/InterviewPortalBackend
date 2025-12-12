@@ -80,5 +80,5 @@ def get_candidates_paginated_service(
     totalcount = db.query(Candidate).count()
     return {
         "totalcount": totalcount,
-        "candidates": db.query(Candidate).offset(skip).limit(limit).all()
+        "candidates": db.query(Candidate).order_by(Candidate.id).offset(skip).limit(limit).all()
     }

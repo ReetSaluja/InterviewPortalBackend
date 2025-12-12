@@ -78,10 +78,33 @@ def get_candidates_paginated(
     limit: int = 10,
     db: Session = Depends(get_db)
 ):
-    candidates = get_candidates_paginated_service(db, skip=skip, limit=limit)
-    return candidates
+    result = get_candidates_paginated_service(db, skip=skip, limit=limit)
+    # Manually exclude the interviewer nested object
+    candidates_data = []
+    for candidate in result["candidates"]:
+        candidate_dict = {
+            "id": candidate.id,
+            "CandidateName": candidate.CandidateName,
+            "TotalExperience": candidate.TotalExperience,
+            "SkillSet": candidate.SkillSet,
+            "CurrentOrganization": candidate.CurrentOrganization,
+            "NoticePeriod": candidate.NoticePeriod,
+            "Feedback": candidate.Feedback,
+            "Remarks": candidate.Remarks,
+            "ClientName": candidate.ClientName,
+            "ClientManagerName": candidate.ClientManagerName,
+            "InterviewerId": candidate.InterviewerId,
+            "InterviewerName": candidate.InterviewerName,
+            "ResumePath": candidate.ResumePath
+        }
+        candidates_data.append(candidate_dict)
+    
+    return {
+        "totalcount": result["totalcount"],
+        "candidates": candidates_data
+    }
 
-@router.get("/{candidate_id}",response_model=CandidateCreate)
+@router.get("/{candidate_id}")
 def get_candidate_by_id(candidate_id:int,db: Session= Depends(get_db)):
     candidate=get_candidate_by_id_service(db,candidate_id)
     if not candidate:
@@ -89,5 +112,19 @@ def get_candidate_by_id(candidate_id:int,db: Session= Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Candidate with id {candidate_id} not found"
         )
-    return candidate
+    return {
+        "id": candidate.id,
+        "CandidateName": candidate.CandidateName,
+        "TotalExperience": candidate.TotalExperience,
+        "SkillSet": candidate.SkillSet,
+        "CurrentOrganization": candidate.CurrentOrganization,
+        "NoticePeriod": candidate.NoticePeriod,
+        "Feedback": candidate.Feedback,
+        "Remarks": candidate.Remarks,
+        "ClientName": candidate.ClientName,
+        "ClientManagerName": candidate.ClientManagerName,
+        "InterviewerId": candidate.InterviewerId,
+        "InterviewerName": candidate.InterviewerName,
+        "ResumePath": candidate.ResumePath
+    }
 
