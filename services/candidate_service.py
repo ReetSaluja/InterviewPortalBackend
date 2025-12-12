@@ -127,5 +127,5 @@ def import_candidates_service(db: Session, rows: List[Dict[str, Any]]):
 
     inserted = bulk_insert_candidates(db, cleaned_rows)
     return {"message": "Imported successfully", "inserted": inserted}
-        "candidates": db.query(Candidate).order_by(Candidate.id).offset(skip).limit(limit).all()
-    }
+        
+    
