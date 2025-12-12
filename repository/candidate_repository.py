@@ -41,3 +41,12 @@ def update_candidate_repo(db: Session, candidate_id: int, candidate_data: Candid
     db.refresh(candidate)
     return candidate
 
+
+
+def bulk_insert_candidates(db: Session, candidates: List[dict]):
+    objects = [Candidate(**c) for c in candidates] #loops over each candidate dictionary.unpacks dictionary keys into model fields.objects becomes a list of Candidate ORM objects
+    db.bulk_save_objects(objects)
+    db.commit()
+    return len(objects)                            #Returns the number of candidates inserted
+
+
