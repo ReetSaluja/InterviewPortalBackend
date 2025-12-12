@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import Optional
 
 class UserCreate(BaseModel):
@@ -28,6 +28,8 @@ class UserRead(BaseModel):
     
 
 class CandidateCreate(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    
     id:Optional[int]=None
     CandidateName: str
     TotalExperience: str
@@ -39,13 +41,8 @@ class CandidateCreate(BaseModel):
     ClientName: Optional[str] = None
     ClientManagerName: Optional[str] = None    
     InterviewerId: Optional[int] = None
+    InterviewerName: Optional[str] = None
     ResumePath: Optional[str] = None
- 
-   
-    
-
-    class Config:
-        from_attributes = True
 
 class CandidateUpdate(BaseModel):
     CandidateName: Optional[str] = None
