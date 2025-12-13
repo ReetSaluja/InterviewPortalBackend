@@ -77,9 +77,10 @@ def update_candidate(
 def get_candidates_paginated(
     skip: int = 0,
     limit: int = 10,
+    search: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
-    result = get_candidates_paginated_service(db, skip=skip, limit=limit)
+    result = get_candidates_paginated_service(db, skip=skip, limit=limit,search=search)
     # Manually exclude the interviewer nested object
     candidates_data = []
     for candidate in result["candidates"]:

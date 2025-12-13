@@ -1,4 +1,5 @@
 # services/candidate_service.py
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from typing import List, Optional, Dict,Any 
 from fastapi import UploadFile
@@ -67,7 +68,8 @@ def get_candidate_by_id_service(db: Session, candidate_id: int) -> Optional[Cand
 def get_candidates_paginated_service(
     db: Session,
     skip: int = 0,
-    limit: int = 10
+    limit: int = 10,
+    search: Optional[str] = None
 ) -> List[Candidate]:
     
     # Validate pagination parameters
@@ -76,10 +78,24 @@ def get_candidates_paginated_service(
     if limit <= 0 or limit > 100:                   # Max limit to prevent performance issues
         limit = 10
     
-    totalcount = db.query(Candidate).count()
+    query = db.query(Candidate)
+    
+    if search:
+        search_term = f"%{search}%"
+        query = query.filter(
+            or_(
+                Candidate.SkillSet.ilike(search_term),
+                Candidate.CurrentOrganization.ilike(search_term),
+                Candidate.CandidateName.ilike(search_term),
+                Candidate.TotalExperience.ilike(search_term),
+                Candidate.NoticePeriod.ilike(search_term),
+            )
+        )
+    
+    totalcount = query.count()
     return {
         "totalcount": totalcount,
-        "candidates": db.query(Candidate).offset(skip).limit(limit).all()
+        "candidates": query.order_by(Candidate.id).offset(skip).limit(limit).all()
     }
     
     
