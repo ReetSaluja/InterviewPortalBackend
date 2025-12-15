@@ -52,6 +52,9 @@ class CandidateUpdate(BaseModel):
     NoticePeriod: Optional[str] = None
     Feedback: Optional[str] = None   
     Remarks: Optional[str] = None
+    ClientName: Optional[str] = None
+    ClientManagerName: Optional[str] = None
+    InterviewerId: Optional[int] = None
     
     class Config:
         from_attributes = True
