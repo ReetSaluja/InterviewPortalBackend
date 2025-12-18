@@ -2,12 +2,18 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session  
 from typing import List
 from db.database import get_db
-from services.Interviewer_service import fetch_all_interviewers_service
-from schemas.schemas import InterviewerSchema
+from services.Interviewer_service import fetch_all_interviewers_service, create_interviewer_service
+from schemas.schemas import InterviewerSchema, InterviewerCreate
+
 router = APIRouter(
     prefix="/interviewers", 
     tags=["Interviewers"]
 )
+
+@router.post("/", response_model=InterviewerSchema)
+def create_interviewer(interviewer: InterviewerCreate, db: Session = Depends(get_db)):
+    return create_interviewer_service(db, interviewer)
+
 @router.get("/", response_model=List[InterviewerSchema])
 def get_all_interviewers(db: Session = Depends(get_db)):
     interviewers = fetch_all_interviewers_service(db)

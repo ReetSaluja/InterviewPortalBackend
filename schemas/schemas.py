@@ -59,11 +59,27 @@ class CandidateUpdate(BaseModel):
     class Config:
         from_attributes = True
         
+class InterviewerCreate(BaseModel):
+    InterviewerName: str
+    Email: EmailStr
+    PhoneNumber: str
+    Designation: str
+    PrimarySkill: str
+    TotalExperience: str
+    CarrerLevel: str
+
+    class Config:
+        from_attributes = True
+
 class InterviewerSchema(BaseModel):
     id: int
     InterviewerName: str
+    Email: str
+    PhoneNumber: str
+    Designation: str
     PrimarySkill: str
-    Proficiency: str
+    TotalExperience: str
+    CarrerLevel: str
 
     class Config:
         from_attributes = True

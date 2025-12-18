@@ -49,8 +49,12 @@ class Interviewer(Base):
     
     id=Column(Integer, primary_key=True, index=True)
     InterviewerName=Column(String,nullable=False)
+    Email=Column(String,nullable=False)
+    PhoneNumber=Column(String,nullable=False)
+    Designation=Column(String,nullable=False)
     PrimarySkill=Column(String,nullable=False)
-    Proficiency=Column(String,nullable=False)
+    TotalExperience=Column(String,nullable=False)
+    CarrerLevel=Column(String,nullable=False)
     
     
     
